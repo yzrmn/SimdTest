@@ -5,32 +5,41 @@ Typical output (Intel i5 2500K):
 
 ```
 IsHardwareAccelerated = True
---------------------------------------
-NoSimdNoCast    6 ms    19797 Ticks
-NoSimdCastBoth  5 ms    16346 Ticks
-SimdNoCast      1 ms    5526 Ticks
-SimdCastPre     13 ms   43060 Ticks
-SimdCastPost    6 ms    19599 Ticks
-SimdCastBoth    18 ms   60648 Ticks
---------------------------------------
-NoSimdNoCast    3 ms    12818 Ticks
-NoSimdCastBoth  3 ms    12396 Ticks
-SimdNoCast      1 ms    4503 Ticks
-SimdCastPre     13 ms   44089 Ticks
-SimdCastPost    5 ms    18064 Ticks
-SimdCastBoth    18 ms   60514 Ticks
---------------------------------------
-NoSimdNoCast    3 ms    12856 Ticks
-NoSimdCastBoth  3 ms    12388 Ticks
-SimdNoCast      1 ms    4392 Ticks
-SimdCastPre     12 ms   40898 Ticks
-SimdCastPost    5 ms    18307 Ticks
-SimdCastBoth    18 ms   58502 Ticks
---------------------------------------
-NoSimdNoCast    4 ms    12917 Ticks
-NoSimdCastBoth  3 ms    12378 Ticks
-SimdNoCast      1 ms    4361 Ticks
-SimdCastPre     12 ms   40964 Ticks
-SimdCastPost    5 ms    18275 Ticks
-SimdCastBoth    19 ms   62025 Ticks
+Length = 8000000 (Total Memory: 236 MB)
+------------------------------------------------------
+1 - NoSimdNoCastShort           9 ms    31171 Ticks
+1 - SimdNoCastShort             1 ms    5510 Ticks
+2 - NoSimdNoCastInt             11 ms   35502 Ticks
+2 - SimdNoCastInt               4 ms    14057 Ticks
+3 - NoSimdNoCastFloat           12 ms   39673 Ticks
+3 - SimdNoCastFloat             3 ms    10301 Ticks
+4 - NoSimdCastIntToByte         9 ms    29918 Ticks
+4 - SimdBothCastIntToByte       11 ms   36323 Ticks
+4 - SimdPreCastIntToFloat       26 ms   84199 Ticks
+4 - SimdPostCastFloatToByte     11 ms   35852 Ticks
+4 - SimdBothCastWithFloat       36 ms   119309 Ticks
+------------------------------------------------------
+1 - NoSimdNoCastShort           7 ms    23226 Ticks
+1 - SimdNoCastShort             1 ms    4421 Ticks
+2 - NoSimdNoCastInt             6 ms    21425 Ticks
+2 - SimdNoCastInt               3 ms    12781 Ticks
+3 - NoSimdNoCastFloat           7 ms    25580 Ticks
+3 - SimdNoCastFloat             2 ms    9487 Ticks
+4 - NoSimdCastIntToByte         7 ms    24852 Ticks
+4 - SimdBothCastIntToByte       10 ms   34920 Ticks
+4 - SimdPreCastIntToFloat       25 ms   81587 Ticks
+4 - SimdPostCastFloatToByte     10 ms   34537 Ticks
+4 - SimdBothCastWithFloat       38 ms   124047 Ticks
+------------------------------------------------------
+1 - NoSimdNoCastShort           7 ms    23196 Ticks
+1 - SimdNoCastShort             1 ms    4427 Ticks
+2 - NoSimdNoCastInt             6 ms    21296 Ticks
+2 - SimdNoCastInt               3 ms    12812 Ticks
+3 - NoSimdNoCastFloat           7 ms    25677 Ticks
+3 - SimdNoCastFloat             2 ms    9181 Ticks
+4 - NoSimdCastIntToByte         7 ms    24846 Ticks
+4 - SimdBothCastIntToByte       10 ms   34865 Ticks
+4 - SimdPreCastIntToFloat       25 ms   81750 Ticks
+4 - SimdPostCastFloatToByte     10 ms   34389 Ticks
+4 - SimdBothCastWithFloat       36 ms   116851 Ticks
 ```

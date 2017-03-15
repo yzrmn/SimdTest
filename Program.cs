@@ -8,72 +8,120 @@ namespace SimdTest
     {
         static void Main(string[] args)
         {
-            var length = 1000000 * Vector<float>.Count;
+            var length = 1000000 * Vector<short>.Count;
             var stopwatch = new Stopwatch();
             var random = new Random();
 
-            var input1 = new float[length];
-            var input2 = new float[length];
-            var input3 = new int[length];
-            var input4 = new int[length];
-            var result1 = new float[length];
-            var result2 = new byte[length];
+            var inputShort1 = new short[length];
+            var inputShort2 = new short[length];
+            var inputInt1 = new int[length];
+            var inputInt2 = new int[length];
+            var inputFloat1 = new float[length];
+            var inputFloat2 = new float[length];
+
+            var resultByte = new byte[length];
+            var resultShort = new short[length];
+            var resultInt = new int[length];
+            var resultFloat = new float[length];
 
             for (int i = 0; i < length; i++)
             {
-                input1[i] = random.Next(15);
-                input2[i] = random.Next(15);
-                input3[i] = random.Next(15);
-                input4[i] = random.Next(15);
+                inputShort1[i] = (short)random.Next(15);
+                inputShort2[i] = (short)random.Next(15);
+
+                inputInt1[i] = random.Next(15);
+                inputInt2[i] = random.Next(15);
+
+                inputFloat1[i] = random.Next(15);
+                inputFloat2[i] = random.Next(15);
             }
 
             Console.WriteLine("IsHardwareAccelerated = {0}", Vector.IsHardwareAccelerated);
+            Console.WriteLine("Length = {0} (Total Memory: {1} MB)", length, (length * 31) / (1024 * 1024));
 
             while (true)
             {
-                Console.WriteLine("--------------------------------------");
+                Console.WriteLine("------------------------------------------------------");
 
                 stopwatch.Restart();
-                Program.NoSimdNoCast(input1, input2, result1);
+                Program.NoSimdNoCastShort(inputShort1, inputShort2, resultShort);
                 stopwatch.Stop();
-                Console.WriteLine("NoSimdNoCast\t{0} ms\t{1} Ticks",
+                Console.WriteLine("1 - NoSimdNoCastShort\t\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 stopwatch.Restart();
-                Program.NoSimdCastBoth(input3, input4, result2);
+                Program.SimdNoCastShort(inputShort1, inputShort2, resultShort);
                 stopwatch.Stop();
-                Console.WriteLine("NoSimdCastBoth\t{0} ms\t{1} Ticks",
+                Console.WriteLine("1 - SimdNoCastShort\t\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 stopwatch.Restart();
-                Program.SimdNoCast(input1, input2, result1);
+                Program.NoSimdNoCastInt(inputInt1, inputInt2, resultInt);
                 stopwatch.Stop();
-                Console.WriteLine("SimdNoCast\t{0} ms\t{1} Ticks",
+                Console.WriteLine("2 - NoSimdNoCastInt\t\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 stopwatch.Restart();
-                Program.SimdCastPre(input3, input4, result1);
+                Program.SimdNoCastInt(inputInt1, inputInt2, resultInt);
                 stopwatch.Stop();
-                Console.WriteLine("SimdCastPre\t{0} ms\t{1} Ticks",
+                Console.WriteLine("2 - SimdNoCastInt\t\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 stopwatch.Restart();
-                Program.SimdCastPost(input1, input2, result2);
+                Program.NoSimdNoCastFloat(inputFloat1, inputFloat2, resultFloat);
                 stopwatch.Stop();
-                Console.WriteLine("SimdCastPost\t{0} ms\t{1} Ticks",
+                Console.WriteLine("3 - NoSimdNoCastFloat\t\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 stopwatch.Restart();
-                Program.SimdCastBoth(input3, input4, result2);
+                Program.SimdNoCastFloat(inputFloat1, inputFloat2, resultFloat);
                 stopwatch.Stop();
-                Console.WriteLine("SimdCastBoth\t{0} ms\t{1} Ticks",
+                Console.WriteLine("3 - SimdNoCastFloat\t\t{0} ms\t{1} Ticks",
+                    stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
+
+                stopwatch.Restart();
+                Program.NoSimdCastIntToByte(inputInt1, inputInt2, resultByte);
+                stopwatch.Stop();
+                Console.WriteLine("4 - NoSimdCastIntToByte\t\t{0} ms\t{1} Ticks",
+                    stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
+
+                stopwatch.Restart();
+                Program.SimdBothCastIntToByte(inputInt1, inputInt2, resultByte);
+                stopwatch.Stop();
+                Console.WriteLine("4 - SimdBothCastIntToByte\t{0} ms\t{1} Ticks",
+                    stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
+
+                stopwatch.Restart();
+                Program.SimdPreCastIntToFloat(inputInt1, inputInt2, resultFloat);
+                stopwatch.Stop();
+                Console.WriteLine("4 - SimdPreCastIntToFloat\t{0} ms\t{1} Ticks",
+                    stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
+
+                stopwatch.Restart();
+                Program.SimdPostCastFloatToByte(inputFloat1, inputFloat2, resultByte);
+                stopwatch.Stop();
+                Console.WriteLine("4 - SimdPostCastFloatToByte\t{0} ms\t{1} Ticks",
+                    stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
+
+                stopwatch.Restart();
+                Program.SimdBothCastWithFloat(inputInt1, inputInt2, resultByte);
+                stopwatch.Stop();
+                Console.WriteLine("4 - SimdBothCastWithFloat\t{0} ms\t{1} Ticks",
                     stopwatch.ElapsedMilliseconds, stopwatch.ElapsedTicks);
 
                 Console.ReadKey();
             }
         }
 
-        static void NoSimdNoCast(float[] input1, float[] input2, float[] result)
+        static void NoSimdNoCastShort(short[] input1, short[] input2, short[] result)
+        {
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (short)(input1[i] * input2[i]);
+            }
+        }
+
+        static void NoSimdNoCastInt(int[] input1, int[] input2, int[] result)
         {
             for (int i = 0; i < result.Length; i++)
             {
@@ -81,7 +129,15 @@ namespace SimdTest
             }
         }
 
-        static void NoSimdCastBoth(int[] input1, int[] input2, byte[] result)
+        static void NoSimdNoCastFloat(float[] input1, float[] input2, float[] result)
+        {
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = input1[i] * input2[i];
+            }
+        }
+
+        static void NoSimdCastIntToByte(int[] input1, int[] input2, byte[] result)
         {
             for (int i = 0; i < result.Length; i++)
             {
@@ -89,7 +145,37 @@ namespace SimdTest
             }
         }
 
-        static void SimdNoCast(float[] input1, float[] input2, float[] result)
+        static void SimdNoCastShort(short[] input1, short[] input2, short[] result)
+        {
+            var simdLength = Vector<short>.Count;
+
+            for (int i = 0; i < result.Length; i += simdLength)
+            {
+                var vinput1 = new Vector<short>(input1);
+                var vinput2 = new Vector<short>(input2);
+
+                var vresult = vinput1 * vinput2;
+
+                vresult.CopyTo(result, i);
+            }
+        }
+
+        static void SimdNoCastInt(int[] input1, int[] input2, int[] result)
+        {
+            var simdLength = Vector<int>.Count;
+
+            for (int i = 0; i < result.Length; i += simdLength)
+            {
+                var vinput1 = new Vector<int>(input1);
+                var vinput2 = new Vector<int>(input2);
+
+                var vresult = vinput1 * vinput2;
+
+                vresult.CopyTo(result, i);
+            }
+        }
+
+        static void SimdNoCastFloat(float[] input1, float[] input2, float[] result)
         {
             var simdLength = Vector<float>.Count;
 
@@ -104,7 +190,25 @@ namespace SimdTest
             }
         }
 
-        static void SimdCastPre(int[] input1, int[] input2, float[] result)
+        static void SimdBothCastIntToByte(int[] input1, int[] input2, byte[] result)
+        {
+            var simdLength = Vector<int>.Count;
+
+            for (int i = 0; i < result.Length; i += simdLength)
+            {
+                var vinput1 = new Vector<int>(input1);
+                var vinput2 = new Vector<int>(input2);
+
+                var vresult = vinput1 * vinput2;
+
+                for (int j = 0; j < 4; j++)
+                {
+                    result[i + j] = (byte)vresult[j];
+                }
+            }
+        }
+
+        static void SimdPreCastIntToFloat(int[] input1, int[] input2, float[] result)
         {
             var simdLength = Vector<float>.Count;
 
@@ -128,7 +232,7 @@ namespace SimdTest
             }
         }
 
-        static void SimdCastPost(float[] input1, float[] input2, byte[] result)
+        static void SimdPostCastFloatToByte(float[] input1, float[] input2, byte[] result)
         {
             var simdLength = Vector<float>.Count;
 
@@ -146,7 +250,7 @@ namespace SimdTest
             }
         }
 
-        static void SimdCastBoth(int[] input1, int[] input2, byte[] result)
+        static void SimdBothCastWithFloat(int[] input1, int[] input2, byte[] result)
         {
             var simdLength = Vector<float>.Count;
 
