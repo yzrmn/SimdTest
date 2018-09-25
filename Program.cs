@@ -201,7 +201,7 @@ namespace SimdTest
 
                 var vresult = vinput1 * vinput2;
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < simdLength; j++)
                 {
                     result[i + j] = (byte)vresult[j];
                 }
@@ -212,12 +212,12 @@ namespace SimdTest
         {
             var simdLength = Vector<float>.Count;
 
-            var buffer1 = new float[4];
-            var buffer2 = new float[4];
+            var buffer1 = new float[simdLength];
+            var buffer2 = new float[simdLength];
 
             for (int i = 0; i < result.Length; i += simdLength)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < simdLength; j++)
                 {
                     buffer1[j] = input1[i + j];
                     buffer2[j] = input2[i + j];
@@ -243,7 +243,7 @@ namespace SimdTest
 
                 var vresult = vinput1 * vinput2;
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < simdLength; j++)
                 {
                     result[i + j] = (byte)vresult[j];
                 }
@@ -254,12 +254,12 @@ namespace SimdTest
         {
             var simdLength = Vector<float>.Count;
 
-            var buffer1 = new float[4];
-            var buffer2 = new float[4];
+            var buffer1 = new float[simdLength];
+            var buffer2 = new float[simdLength];
 
             for (int i = 0; i < result.Length; i += simdLength)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < simdLength; j++)
                 {
                     buffer1[j] = input1[i + j];
                     buffer2[j] = input2[i + j];
@@ -270,7 +270,7 @@ namespace SimdTest
 
                 var vresult = vinput1 * vinput2;
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < simdLength; j++)
                 {
                     result[i + j] = (byte)vresult[j];
                 }
